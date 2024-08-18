@@ -5,6 +5,7 @@
 
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
+export const emerald = '#004721';
 
 export const Colors = {
   light: {
