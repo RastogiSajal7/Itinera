@@ -1,21 +1,28 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import {initializeAuth, getReactNativePersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { APIKEY, AUTHDOMAIN, PROJECTID, STORAGEBUCKET, MESSAGINGSENDERID, APPID, MEASUREMENTID } from '../keys';
 
 // Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBGgBfOCRuDKqCFFJlBr-OECk6RKo7_lSI",
-  authDomain: "itinera-plan.firebaseapp.com",
-  projectId: "itinera-plan",
-  storageBucket: "itinera-plan.appspot.com",
-  messagingSenderId: "679881087434",
-  appId: "1:679881087434:web:754b3bb7676ac318f6d733",
-  measurementId: "G-CSWEWQQGVX"
+  apiKey: APIKEY,
+  authDomain: AUTHDOMAIN,
+  projectId: PROJECTID,
+  storageBucket: STORAGEBUCKET,
+  messagingSenderId: MESSAGINGSENDERID,
+  appId: APPID,
+  measurementId: MEASUREMENTID,
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApps()[0];
+}
+
 
 // Initialize Auth and Firestore
 // Initialize Firebase Auth with AsyncStorage persistence
