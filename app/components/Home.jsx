@@ -1,34 +1,19 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+const { height } = Dimensions.get("window");
+
 export default function Home({ navigation }) {
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Image
-        style={{
-          width: "100%",
-          height: 500,
-        }}
+        style={styles.image}
         source={require("../../assets/images/Plantwall.jpg")}
       />
       <View style={styles.container}>
-        <Text
-          style={{
-            fontSize: 28,
-            textAlign: "center",
-          }}
-        >
-          NatureNest
-        </Text>
-        <Text
-          style={{
-            fontSize: 17,
-            textAlign: "center",
-            color: "gray",
-            marginTop: 10,
-          }}
-        >
+        <Text style={styles.title}>NatureNest</Text>
+        <Text style={styles.description}>
           Discover a lush world of green at your fingertips. Find the perfect
           plant to brighten your space and elevate your well-being.
         </Text>
@@ -36,15 +21,7 @@ export default function Home({ navigation }) {
           onPress={() => navigation.navigate("SignUp")}
           style={styles.button}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontSize: 17,
-            }}
-          >
-            Get Started
-          </Text>
+          <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -52,17 +29,42 @@ export default function Home({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  image: {
+    width: "100%",
+    height: height * 0.6,
+  },
   container: {
+    flexGrow: 1,
     padding: 20,
     backgroundColor: "white",
-    marginTop: -10,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    marginTop: -60,
+    borderTopLeftRadius: 60,
+    borderTopRightRadius: 60,
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 28,
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 17,
+    textAlign: "center",
+    color: "gray",
+    marginTop: 10,
   },
   button: {
     padding: 15,
     backgroundColor: "#004721",
     borderRadius: 99,
-    marginTop: "10%",
+    marginTop: 30,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 17,
   },
 });

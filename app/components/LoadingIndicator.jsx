@@ -1,13 +1,33 @@
-// LoadingIndicator.js
-import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Image, StyleSheet, Animated } from 'react-native';
 
 const LoadingIndicator = () => {
+ 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+ 
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1, 
+          duration: 1000, 
+          useNativeDriver: true, 
+        }),
+      ])
+    ).start();
+  }, [scaleAnim]);
+
   return (
     <View style={styles.container}>
-      <Image 
-        source={require('../../assets/images/icon.jpg')} 
-        style={styles.image} 
+      <Animated.Image
+        source={require('../../assets/images/loaderImg.png')}
+        style={[styles.image, { transform: [{ scale: scaleAnim }] }]}
       />
     </View>
   );
@@ -18,11 +38,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 300,
+    height: 300,
   },
 });
 
