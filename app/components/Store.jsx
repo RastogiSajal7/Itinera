@@ -13,97 +13,92 @@ const plants = [
   {
     name: "Snake Plant",
     price: "₹350",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/snakeplant.jpg"),
   },
   {
     name: "Spider Plant",
     price: "₹299",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/spiderplant.jpg"),
   },
   {
     name: "Pothos Plant",
     price: "₹250",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/pothosplant.jpg"),
   },
   {
     name: "Aloe Vera Plant",
     price: "₹320",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/aloveraplant.jpg"),
   },
   {
     name: "Rubber Plant",
     price: "₹450",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/rubberplant.jpg"),
   },
   {
     name: "Boston Fern",
     price: "₹380",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/bostonfern.jpg"),
   },
   {
     name: "Chinese Evergreen",
     price: "₹300",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/chineseevergreen.jpg"),
   },
   {
     name: "ZZ Plant",
     price: "₹399",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/zzplant.jpg"),
   },
   {
     name: "Golden Pothos",
     price: "₹280",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/goldenpothos.jpg"),
   },
   {
     name: "Philodendron Heartleaf",
     price: "₹340",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/philodendronheartleaf.jpg"),
   },
   {
     name: "Dracaena Marginata",
     price: "₹420",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/dracaenamarginata.png"),
   },
   {
     name: "Fiddle Leaf Fig",
     price: "₹599",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/fiddleleaffig.jpg"),
   },
   {
     name: "Monstera Deliciosa",
     price: "₹480",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/monsteradelicios.jpg"),
   },
   {
-    name: "Calathea Orbifolia",
+    name: "Calathea Triostar",
     price: "₹360",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/calatheatriostar.jpg"),
   },
   {
-    name: "African Violet",
-    price: "₹220",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    name: "Dwarf Schefflera",
+    price: "₹250",
+    image: require("../../assets/plants/dwarfschefflera.jpg"),
   },
   {
-    name: "Chinese Money Plant",
-    price: "₹295",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    name: "Pilea Plant",
+    price: "₹305",
+    image: require("../../assets/plants/pileaplant.jpg"),
   },
   {
     name: "Bonsai Tree",
     price: "₹650",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
-  },
-  {
-    name: "Succulent Assortment",
-    price: "₹330",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/bonsaitree.jpg"),
   },
   {
     name: "Orchid",
     price: "₹400",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
+    image: require("../../assets/plants/orchid.jpg"),
   },
   // Add more plants as needed
 ];
@@ -157,7 +152,7 @@ export default function Store({username}) {
             {/* Discount Card */}
             <View style={styles.discountCard}>
               <Text style={styles.discountText}>
-                Get discount prices up to 85%
+                Get discount prices up to 50%
               </Text>
               <Text style={styles.discountSubText}>
                 Claim vouchers every week and get free shipping

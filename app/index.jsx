@@ -6,6 +6,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import BottomNavigation from "./components/BottomNavigation";
 import { CartProvider } from "./components/CartContext";
+import Checkout from "./components/Checkout";
+import PaymentSuccess from "./components/PaymentSuccess";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +40,14 @@ export default function Index() {
               name="MainPage"
               component={BottomNavigation}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Checkout"
+              component={Checkout}
+            />
+            <Stack.Screen
+            name="PaymentSuccess"
+            component={PaymentSuccess}
             />
           </Stack.Navigator>
         {/* </SafeAreaView> */}

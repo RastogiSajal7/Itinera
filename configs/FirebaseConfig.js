@@ -40,7 +40,7 @@ let db;
 try {
   authInitialized = initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
   db = getFirestore(app);
-  console.log(authInitialized, db);
+  // console.log(authInitialized, db);
 } catch (error) {
   console.error("Firebase Auth or Firestore initialization error:", error);
 }
