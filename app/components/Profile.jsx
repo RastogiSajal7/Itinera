@@ -104,6 +104,15 @@ export default function Profile({ username }) {
           </View>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.menuItem}>
+          <View style={styles.menuIcon}>
+            <Text style={styles.menuIconText}>📦</Text>
+          </View>
+          <View style={styles.menuTextContainer}>
+            <Text style={styles.menuTextQ}>Orders </Text>
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.menuItem}
           onPress={() => navigation.navigate("Notifications")}
@@ -135,6 +144,15 @@ export default function Profile({ username }) {
           <View style={styles.menuTextContainer}>
             <Text style={styles.menuTextQ}>Language </Text>
             <Text style={styles.menuText}>English</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={()=> navigation.navigate('SignUp')} style={styles.menuItem}>
+          <View style={styles.menuIcon}>
+            <Text style={styles.menuIconText}>🔓</Text>
+          </View>
+          <View style={styles.menuTextContainer}>
+            <Text style={styles.menuTextQ}>Logout </Text>
           </View>
         </TouchableOpacity>
       </View>

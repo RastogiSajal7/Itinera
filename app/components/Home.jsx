@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: height * 0.6,
+    height: height * 0.7,
   },
   container: {
     flexGrow: 1,
     padding: 20,
     backgroundColor: "white",
-    marginTop: -60,
+    marginTop: -100,
     borderTopLeftRadius: 60,
     borderTopRightRadius: 60,
     justifyContent: "center",

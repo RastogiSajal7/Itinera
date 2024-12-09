@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import BottomNavigation from "./components/BottomNavigation";
@@ -14,6 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function Index() {
   return (
     <CartProvider>
+      <NavigationContainer>
       <GestureHandlerRootView style={styles.container}>
         {/* <SafeAreaView style={styles.safeArea}> */}
           <StatusBar barStyle="light-content" backgroundColor="#004721" />
@@ -52,6 +54,7 @@ export default function Index() {
           </Stack.Navigator>
         {/* </SafeAreaView> */}
       </GestureHandlerRootView>
+      </NavigationContainer>
     </CartProvider>
   );
 }
