@@ -9,6 +9,7 @@ import BottomNavigation from "./components/BottomNavigation";
 import { CartProvider } from "./components/CartContext";
 import Checkout from "./components/Checkout";
 import PaymentSuccess from "./components/PaymentSuccess";
+import Orders from "./components/Orders";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,7 @@ export default function Index() {
             name="PaymentSuccess"
             component={PaymentSuccess}
             />
+            <Stack.Screen name="Orders" component={Orders} options={{headerShown: false}} />
           </Stack.Navigator>
         {/* </SafeAreaView> */}
       </GestureHandlerRootView>

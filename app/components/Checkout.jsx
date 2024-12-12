@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { useCart } from './CartContext';
+import { db } from '../../configs/FirebaseConfig';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+
 
 export default function Checkout({ route, navigation }) {
-  const {clearCart} = useCart();
+  const { clearCart, userUid } = useCart();
   const { cartItems = [] } = route.params || {}; // Fallback to empty array if undefined
   const [selectedPayment, setSelectedPayment] = useState(null);
 
@@ -17,10 +20,27 @@ export default function Checkout({ route, navigation }) {
 
   const totalPrice = calculateTotalPrice(cartItems);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (selectedPayment) {
-      navigation.navigate('PaymentSuccess');
-      clearCart();
+      try {
+        // Store the cart items in the Firestore database
+        const orderData = {
+          uid: userUid,
+          items: cartItems,
+          totalPrice,
+          paymentMethod: selectedPayment,
+          createdAt: Timestamp.now(),
+        };
+
+        await addDoc(collection(db, 'orders'), orderData);
+
+        // Navigate to PaymentSuccess screen and clear the cart
+        navigation.navigate('PaymentSuccess');
+        clearCart();
+      } catch (error) {
+        console.error('Error storing order data: ', error);
+        Alert.alert('Error', 'Failed to process your order. Please try again.');
+      }
     } else {
       Alert.alert('Payment Method Required', 'Please select a payment method to proceed.');
     }
@@ -45,21 +65,29 @@ export default function Checkout({ route, navigation }) {
         )}
         keyExtractor={(item) => item.name}
       />
-      <View style={styles.paymentOptions}>
-        <Text style={styles.paymentTitle}>Select Payment Method</Text>
-        {['Credit Card', 'Debit Card', 'UPI', 'Cash On Delivery'].map((method) => (
-          <TouchableOpacity
-            key={method}
-            style={[
-              styles.paymentButton,
-              selectedPayment === method && styles.selectedPaymentButton,
-            ]}
-            onPress={() => setSelectedPayment(method)}
-          >
-            <Text style={styles.paymentButtonText}>{method}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+<View style={styles.paymentOptions}>
+  <Text style={styles.paymentTitle}>Select Payment Method</Text>
+  {[
+    { method: 'Credit Card', emoji: '💳' },
+    { method: 'Debit Card', emoji: '💳' },
+    { method: 'UPI', emoji: '📱' },
+    { method: 'Cash On Delivery', emoji: '💵' },
+  ].map(({ method, emoji }) => (
+    <TouchableOpacity
+      key={method}
+      style={[
+        styles.paymentButton,
+        selectedPayment === method && styles.selectedPaymentButton,
+      ]}
+      onPress={() => setSelectedPayment(method)}
+    >
+      <Text style={styles.paymentButtonText}>
+        {emoji} {method}
+      </Text>
+    </TouchableOpacity>
+  ))}
+</View>
+
       <View style={styles.footer}>
         <Text style={styles.totalPrice}>Total: ₹{totalPrice}</Text>
         <TouchableOpacity

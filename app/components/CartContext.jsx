@@ -1,20 +1,43 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { auth } from '../../configs/FirebaseConfig';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [userUid, setUserUid] = useState("");
+
+  useEffect(() => {
+    const fetchUserUid = () => {
+      const user = auth.currentUser;
+      if (user) {
+        setUserUid(user.uid);
+      } else {
+        setUserUid("");
+      }
+    };
+
+    fetchUserUid();
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserUid(user.uid);
+      } else {
+        setUserUid("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const addToCart = (item) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex((i) => i.name === item.name);
       if (existingItemIndex > -1) {
-        // Item already exists, update quantity
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex].quantity += 1;
         return updatedItems;
       } else {
-        // Item doesn't exist, add new item with quantity 1
         return [...prevItems, { ...item, quantity: 1 }];
       }
     });
@@ -26,12 +49,10 @@ export function CartProvider({ children }) {
       if (existingItemIndex > -1) {
         const item = prevItems[existingItemIndex];
         if (item.quantity > 1) {
-          // Decrease quantity if more than 1
           const updatedItems = [...prevItems];
           updatedItems[existingItemIndex].quantity -= 1;
           return updatedItems;
         } else {
-          // Remove item if quantity is 1
           return prevItems.filter((i) => i.name !== itemName);
         }
       }
@@ -48,10 +69,21 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, getCartQuantity, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        getCartQuantity,
+        clearCart,
+        userUid,
+        setUserUid,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 }
+
 
 export const useCart = () => useContext(CartContext);

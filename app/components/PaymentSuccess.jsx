@@ -13,7 +13,7 @@ export default function PaymentSuccess({ navigation }) {
     }).start();
 
     const timer = setTimeout(() => {
-      navigation.navigate('MainPage');
+      navigation.navigate('Orders');
     }, 2000);
 
     return () => clearTimeout(timer);

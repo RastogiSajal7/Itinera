@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { View,Text,StyleSheet,TouchableOpacity,Image,ScrollView} from "react-native";
 import { db } from "../../configs/FirebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -73,6 +66,7 @@ export default function Profile({ username }) {
         </View>
       </View>
 
+      <ScrollView>
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuIcon}>
@@ -104,7 +98,7 @@ export default function Profile({ username }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Orders')} style={styles.menuItem}>
           <View style={styles.menuIcon}>
             <Text style={styles.menuIconText}>📦</Text>
           </View>
@@ -155,7 +149,8 @@ export default function Profile({ username }) {
             <Text style={styles.menuTextQ}>Logout </Text>
           </View>
         </TouchableOpacity>
-      </View>
+        </View>
+        </ScrollView>
     </View>
   );
 }
