@@ -1,147 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, FlatList, ScrollView, Button } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import Searchbar from "../components/Seachbar";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "expo-router";
 import { useCart } from "./CartContext";
+import { plants, seeds } from "../../constants/plantsData";
 
-const plants = [
-  {
-    name: "Peace Lily Plant",
-    price: "₹278",
-    originalPrice: "₹350",
-    discount: "21%",
-    image: require("../../assets/plants/Peace Lily Plant.png"),
-  },
-  {
-    name: "Snake Plant",
-    price: "₹350",
-    originalPrice: "₹430",
-    discount: "19%",
-    image: require("../../assets/plants/snakeplant.jpg"),
-  },
-  {
-    name: "Spider Plant",
-    price: "₹299",
-    originalPrice: "₹400",
-    discount: "25%",
-    image: require("../../assets/plants/spiderplant.jpg"),
-  },
-  {
-    name: "Pothos Plant",
-    price: "₹250",
-    originalPrice: "₹320",
-    discount: "22%",
-    image: require("../../assets/plants/pothosplant.jpg"),
-  },
-  {
-    name: "Aloe Vera Plant",
-    price: "₹320",
-    originalPrice: "₹400",
-    discount: "20%",
-    image: require("../../assets/plants/aloveraplant.jpg"),
-  },
-  {
-    name: "Rubber Plant",
-    price: "₹450",
-    originalPrice: "₹600",
-    discount: "25%",
-    image: require("../../assets/plants/rubberplant.jpg"),
-  },
-  {
-    name: "Boston Fern",
-    price: "₹380",
-    originalPrice: "₹520",
-    discount: "27%",
-    image: require("../../assets/plants/bostonfern.jpg"),
-  },
-  {
-    name: "Chinese Evergreen",
-    price: "₹300",
-    originalPrice: "₹390",
-    discount: "23%",
-    image: require("../../assets/plants/chineseevergreen.jpg"),
-  },
-  {
-    name: "ZZ Plant",
-    price: "₹399",
-    originalPrice: "₹520",
-    discount: "23%",
-    image: require("../../assets/plants/zzplant.jpg"),
-  },
-  {
-    name: "Golden Pothos",
-    price: "₹280",
-    originalPrice: "₹400",
-    discount: "30%",
-    image: require("../../assets/plants/goldenpothos.jpg"),
-  },
-  {
-    name: "Philodendron Heartleaf",
-    price: "₹340",
-    originalPrice: "₹450",
-    discount: "24%",
-    image: require("../../assets/plants/philodendronheartleaf.jpg"),
-  },
-  {
-    name: "Dracaena Marginata",
-    price: "₹420",
-    originalPrice: "₹520",
-    discount: "19%",
-    image: require("../../assets/plants/dracaenamarginata.png"),
-  },
-  {
-    name: "Fiddle Leaf Fig",
-    price: "₹599",
-    originalPrice: "₹850",
-    discount: "30%",
-    image: require("../../assets/plants/fiddleleaffig.jpg"),
-  },
-  {
-    name: "Monstera Deliciosa",
-    price: "₹480",
-    originalPrice: "₹600",
-    discount: "20%",
-    image: require("../../assets/plants/monsteradelicios.jpg"),
-  },
-  {
-    name: "Calathea Triostar",
-    price: "₹360",
-    originalPrice: "₹480",
-    discount: "25%",
-    image: require("../../assets/plants/calatheatriostar.jpg"),
-  },
-  {
-    name: "Dwarf Schefflera",
-    price: "₹250",
-    originalPrice: "₹340",
-    discount: "26%",
-    image: require("../../assets/plants/dwarfschefflera.jpg"),
-  },
-  {
-    name: "Pilea Plant",
-    price: "₹305",
-    originalPrice: "₹400",
-    discount: "24%",
-    image: require("../../assets/plants/pileaplant.jpg"),
-  },
-  {
-    name: "Bonsai Tree",
-    price: "₹650",
-    originalPrice: "₹950",
-    discount: "32%",
-    image: require("../../assets/plants/bonsaitree.jpg"),
-  },
-  {
-    name: "Orchid",
-    price: "₹400",
-    originalPrice: "₹580",
-    discount: "31%",
-    image: require("../../assets/plants/orchid.jpg"),
-  },
-];
-
-export default function Store({username}) {
+export default function Store({ username }) {
   const { addToCart } = useCart();
   const navigation = useNavigation();
   const currentDay = new Date().toLocaleString("en-in", {
@@ -156,9 +20,52 @@ export default function Store({username}) {
   });
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeSection, setActiveSection] = useState("plants"); // State to toggle between sections
 
   const filteredPlants = plants.filter((plant) =>
     plant.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredSeeds = seeds.filter((seed) =>
+    seed.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const renderProduct = ({ item }) => (
+    <View style={styles.plantCard}>
+      <Image source={item.image} style={styles.plantImage} />
+      <Text style={styles.plantName}>{item.name}</Text>
+
+      {/* Discount Badge */}
+      <View style={styles.discountBadge}>
+        <Text style={styles.discountText}>{item.discount} OFF</Text>
+      </View>
+
+      {/* Price Section */}
+      <View style={styles.priceContainer}>
+        <Text style={styles.originalPrice}>{item.originalPrice}</Text>
+        <Text style={styles.plantPrice}>{item.price}</Text>
+      </View>
+
+      {/* Buttons */}
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text style={{ color: "#fff" }} onPress={() => addToCart(item)}>
+            Add To Cart
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text
+            onPress={() => {
+              addToCart(item);
+              navigation.navigate("Cart");
+            }}
+            style={{ color: "#fff" }}
+          >
+            Buy Now
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 
   return (
@@ -178,67 +85,71 @@ export default function Store({username}) {
         </View>
       </View>
 
-      {/* Searchbar (non-scrollable part) */}
+      {/* Searchbar */}
       <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Scrollable content starts after Searchbar */}
-      <View style={{ flex: 1 }}>  
-      <FlatList
-        data={filteredPlants}
-        numColumns={2}
-        ListHeaderComponent={() => (
-          <View style={styles.content}>
-            {/* Discount Card */}
-            <View style={styles.discountCard}>
-              <Text style={styles.discountText}>
-                Get discount prices up to 35%
-              </Text>
-              <Text style={styles.discountSubText}>
-                Claim vouchers every week and get free shipping
-              </Text>
-              <Image
-                source={require("../../assets/images/icon.jpg")}
-                style={styles.discountImage}
-              />
-            </View>
+      {/* Toggle Section Buttons */}
+      <View style={styles.toggleButtons}>
+        <TouchableOpacity
+          onPress={() => setActiveSection("plants")}
+          style={[styles.toggleButton, activeSection === "plants" && styles.activeToggle]}
+        >
+          <Text style={styles.toggleButtonText}>Plants</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setActiveSection("seeds")}
+          style={[styles.toggleButton, activeSection === "seeds" && styles.activeToggle]}
+        >
+          <Text style={styles.toggleButtonText}>Seeds</Text>
+        </TouchableOpacity>
+      </View>
 
-            {/* Section Title */}
-            <Text style={styles.sectionTitle}>Popular Plants</Text>
-          </View>
-        )}
-        renderItem={({ item }) => (
-          <View style={styles.plantCard}>
-            <Image source={item.image} style={styles.plantImage} />
-            <Text style={styles.plantName}>{item.name}</Text>
-            
-            {/* Discount Badge */}
-            <View style={styles.discountBadge}>
-              <Text style={styles.discountText}>{item.discount} OFF</Text>
+      {/* Plants Section */}
+      {activeSection === "plants" && (
+        <FlatList
+          data={filteredPlants}
+          numColumns={2}
+          ListHeaderComponent={() => (
+            <View style={styles.content}>
+              <View style={styles.discountCard}>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                  Get discount prices up to 35%
+                </Text>
+                <Text style={styles.discountSubText}>
+                  Claim vouchers every week and get free shipping
+                </Text>
+                <Image
+                  source={require("../../assets/images/icon.jpg")}
+                  style={styles.discountImage}
+                />
+              </View>
+
+              <Text style={styles.sectionTitle}>Popular Plants</Text>
             </View>
-        
-            {/* Price Section */}
-            <View style={styles.priceContainer}>
-              <Text style={styles.originalPrice}>{item.originalPrice}</Text>
-              <Text style={styles.plantPrice}>{item.price}</Text>
+          )}
+          renderItem={renderProduct}
+          keyExtractor={(item) => item.name}
+          ListEmptyComponent={<Text style={styles.plantName}>Sorry, no plants found</Text>}
+          contentContainerStyle={styles.listContent}
+        />
+      )}
+
+      {/* Seeds Section */}
+      {activeSection === "seeds" && (
+        <FlatList
+          data={filteredSeeds}
+          numColumns={2}
+          ListHeaderComponent={() => (
+            <View style={styles.content}>
+              <Text style={styles.sectionTitle}>Seeds</Text>
             </View>
-            
-            {/* Buttons */}
-            <View style={{ flexDirection: "row", gap: 8 }}>
-              <TouchableOpacity style={styles.buyButton}>
-                <Text style={{ color: "#fff" }} onPress={() => addToCart(item)}>Add To Cart</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buyButton}>
-                <Text onPress={()=> { addToCart(item), navigation.navigate('Cart')}} style={{ color: "#fff" }}>Buy Now</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-        
-        keyExtractor={(item) => item.name}
-        ListEmptyComponent={<Text style={styles.plantName}> Sorry no plants found</Text>}
-        contentContainerStyle={styles.listContent}
-      />
-</View>
+          )}
+          renderItem={renderProduct}
+          keyExtractor={(item) => item.name}
+          ListEmptyComponent={<Text style={styles.plantName}>Sorry, no seeds found</Text>}
+          contentContainerStyle={styles.listContent}
+        />
+      )}
     </View>
   );
 }
@@ -278,13 +189,9 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: "center",
   },
-  discountText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
   discountSubText: {
     fontSize: 14,
+    textAlign: "center",
     color: "#666",
   },
   discountImage: {
@@ -345,7 +252,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     backgroundColor: "red",
-    borderRadius: 20,
+    borderRadius: 5,
     paddingHorizontal: 8,
     paddingVertical: 2,
   },
@@ -357,5 +264,22 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 80,
   },
+  toggleButtons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
+  },
+  toggleButton: {
+    padding: 10,
+    marginHorizontal: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 5,
+  },
+  activeToggle: {
+    backgroundColor: "#e0e0e0",
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    color: "#333",
+  },
 });
-
